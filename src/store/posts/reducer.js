@@ -5,6 +5,7 @@ const { Types } = actions;
 
 const INITIAL_STATE = {
     loading:false,
+    saveLoading:false,
     data: [],
     error: null,
 };
@@ -14,10 +15,7 @@ const loadPostsRequest = (
 ) => {
     return {
         ...state,
-        posts: {
-            ...state.posts,
-            loading:true
-        },
+        loading:true
     };
 };
 
@@ -26,10 +24,8 @@ const loadPostsSuccess = (
 ) => {
     return {
         ...state,
-        posts: {
-            posts,
-            loading:false
-        },
+        data:posts,
+        loading:false
     };
 };
 const loadPostsError = (
@@ -37,19 +33,49 @@ const loadPostsError = (
 ) => {
     return {
         ...state,
-        posts: {
-            error,
-            loading:false
-        },
+        error,
+        loading:false
     };
 };
 
-const searchAccounts = () => INITIAL_STATE;
+
+const createPostRequest = (
+    state = INITIAL_STATE,
+) => {
+    return {
+        ...state,
+        saveLoading:true
+    };
+};
+
+const createPostSuccess = (
+    state = INITIAL_STATE,{response}
+) => {
+    return {
+        ...state,
+        data: [...state.data, {...response}],
+        saveLoading:false
+    };
+};
+const createPostError = (
+    state = INITIAL_STATE,{ error }
+) => {
+    return {
+        ...state,
+        error,
+        saveLoading:false
+    };
+};
+
 
 export const HANDLERS = {
     [Types.LOAD_POSTS_REQUEST]: loadPostsRequest,
     [Types.LOAD_POSTS_SUCCESS]: loadPostsSuccess,
     [Types.LOAD_POSTS_ERROR]: loadPostsError,
+
+    [Types.CREATE_POST_REQUEST]: createPostRequest,
+    [Types.CREATE_POST_SUCCESS]: createPostSuccess,
+    [Types.CREATE_POST_ERROR]: createPostError,
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

@@ -4,6 +4,10 @@ const { Types, Creators } = createActions({
     loadPostsRequest:[],
     loadPostsSuccess:['posts'],
     loadPostsError:['error'],
+
+    createPostRequest :['request'],
+    createPostSuccess:['response'],
+    createPostError:['error'],
 });
 
 const Actions = {
